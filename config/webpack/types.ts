@@ -8,5 +8,6 @@ export interface BuildParams {
         output: string
         entry: string
         html: string
+        src: string
     }
 }
