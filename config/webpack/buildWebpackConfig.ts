@@ -26,7 +26,7 @@ export const buildWebpackConfig = (params: BuildParams): webpack.Configuration =
 			extensions: ['.tsx', '.ts', '.js'],
 			modules: [paths.src, 'node_modules']
 		},
-		plugins: buildPlugins(paths),
+		plugins: buildPlugins(paths, isDev),
 		optimization: {
 			runtimeChunk: 'single'
 		},

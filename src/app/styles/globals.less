@@ -1,0 +1,97 @@
+@import "reset";
+@import "variables";
+@import "themes/swamp";
+
+@font-face {
+  font-family: "Do Hyeon";
+  src: url("../fonts/DoHyeon-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Space Marine";
+  src: url("../fonts/space-marine.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: Intro;
+  src: url("../fonts/Intro/Intro-Trial-Rg.ttf");
+}
+
+body {
+  font-family: "Do Hyeon";
+  overflow: hidden;
+}
+
+.colorBg(@color) {
+    @current: @color;
+    &.inverted {
+      @current: ~"@{color}-inverted";
+      background: var(@current);
+    }
+    background: var(@current);
+  }
+
+.colorText(@color) {
+    @current: @color;
+    &.inverted {
+      @current: ~"@{color}-inverted";
+      color: var(@current);
+    }
+    color: var(@current);
+  }  
+
+.primarybg {
+    .colorBg(--primary-color);
+}
+
+.secondarybg {
+    .colorBg(--secondary-color);
+}
+
+.bg-primarybg {
+    .colorBg(--bg-color-main);
+}
+
+.bg-secondarybg {
+    .colorBg(--bg-color-secondary);
+}
+
+.itembg {
+    .colorBg(--item-color);
+}
+
+.item-darkbg {
+  .colorBg(--item-dark);
+}
+
+.darkbg {
+  .colorBg(--dark);
+}
+
+.primarytext {
+  .colorText(--primary-color);
+}
+
+.secondarytext {
+  .colorText(--secondary-color);
+}
+
+.bg-primarytext {
+  .colorText(--bg-color-main);
+}
+
+.bg-secondarytext {
+  .colorText(--bg-color-secondary);
+}
+
+.itemtext {
+  .colorText(--item-color);
+}
+
+.item-darktext {
+.colorText(--item-dark);
+}
+
+.darktext {
+.colorText(--dark);
+}

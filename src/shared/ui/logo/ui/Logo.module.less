@@ -1,0 +1,31 @@
+.ripple {
+    transform: scale(0);
+    background: white;
+    opacity: 0.4;
+    border-radius: 50%;
+    animation: anim 2.0s ease-in-out infinite;
+    position: absolute;
+}
+
+.logo {
+    overflow: clip;
+    padding: 12px 46px;
+    border-radius: 18px;
+    position: relative;
+}
+
+@keyframes anim {
+    0% {
+        opacity: 0.4;
+        transform: scale(0);
+    }
+
+    80% {
+        opacity: 0.0;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0;
+    }
+}

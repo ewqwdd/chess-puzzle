@@ -21,5 +21,8 @@
 		"quotes": ["error", "single"],
 		"semi": ["error", "never"],
         "react/react-in-jsx-scope": "off"
+	},
+	"globals": {
+		"_IS_DEV_": true 
 	}
 }

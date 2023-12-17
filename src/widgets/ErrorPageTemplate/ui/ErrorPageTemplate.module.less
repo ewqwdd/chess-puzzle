@@ -1,0 +1,86 @@
+.page {
+    position: relative;
+    height: 100%;
+}
+
+.cell {
+    position: absolute;
+    animation: levitate ease-in-out infinite;
+    animation-duration: 4.4s;
+    &.1b {
+        animation-delay: 0.1s;
+        animation-duration: 4.5s;
+        top: 147px;
+        left: -20px;
+        transform: rotate(-33deg);
+    }
+    &.2b {
+        animation-delay: 0.3s;
+        top: 476px;
+        left: -20px;
+        transform: rotate(-77deg);
+    }
+    &.3b {
+        animation-delay: 0.4s;
+        animation-duration: 2.8s;
+        bottom: 264px;
+        left: -12px;
+        transform: rotate(-42deg);
+        animation-duration: 4.1s;
+
+    }
+    &.4b {
+        animation-delay: 0.4s;
+        bottom: 26px;
+        right: 300;
+        transform: rotate(-5deg);
+    }
+    &.5b {
+        animation-delay: 0.15s;
+        top: 36px;
+        right: 50px;
+        transform: rotate(-77deg);
+        animation-duration: 4.1s;
+    }
+    &.1 {
+        animation-delay: 0.25s;
+        top: -12px;
+        left: 30%;
+        transform: rotate(16deg);
+        animation-duration: 4.15s;
+    }
+    &.2 {
+        animation-delay: 0.2s;
+        top: 335px;
+        right: 60px;
+        transform: rotate(52deg);
+    }
+    &.3 {
+        animation-delay: 0.4s;
+        bottom: 152px;
+        right: 40px;
+        transform: rotate(34deg);
+        animation-duration: 4.1s;
+    }
+    &.4 {
+        animation-delay: 0.3s;
+        bottom: 90px;
+        left: 105px;
+        transform: rotate(16deg);
+    }
+
+}
+
+@keyframes levitate {
+    0% {
+        translate: 0;
+    }
+
+    50% {
+        translate: 0 23px;
+    }
+
+    100% {
+        translate: 0;
+    }
+}
