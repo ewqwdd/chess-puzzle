@@ -1,7 +1,8 @@
 import { AnyAction, Reducer, ReducersMapObject, CombinedState } from '@reduxjs/toolkit'
+import { BoardSchema } from 'entities/Board'
 
 export interface StateSchema {
-
+    board: BoardSchema
 }
 
 export type StateSchemaKey = keyof StateSchema

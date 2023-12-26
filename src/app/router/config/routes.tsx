@@ -1,4 +1,5 @@
 import { NotFound } from 'pages/NotFound'
+import { PlayPage } from 'pages/PlayPage'
 import { ReactNode } from 'react'
 
 export enum RoutesEnum {
@@ -20,7 +21,7 @@ export const AppRoutes: Record<RoutesEnum, RouteProps> = {
 		component: <>hello world</>
 	},
 	'/play': {
-		component: <></>
+		component: <PlayPage />
 	},
 	'/profile': {
 		component: <></>

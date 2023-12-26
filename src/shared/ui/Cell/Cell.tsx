@@ -7,11 +7,18 @@ interface CellProps extends HTMLAttributes<HTMLDivElement>{
     children?: ReactNode
     black?: boolean
     className?: string
+	width?: number
 }
 
-export default memo(function Cell({black, children, className, ...props}: CellProps) {
+export default memo(function CellComp({black, children, className, width, ...props}: CellProps) {
 	return (
-		<div {...props} className={ClassNames(className, {}, [ColorMapper('bg-secondary', 'bg', !black), styles.cell])}>
+		<div 
+			{...props} 
+			className={ClassNames(className, {}, [ColorMapper('bg-secondary', 'bg', !black), styles.cell])}
+			style={{
+				width
+			}}
+		>
 			{children}
 		</div>
 	)

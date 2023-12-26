@@ -6,7 +6,7 @@ import {
 } from '../types/types'
 
 export function createReducerManager(initialReducers: ReducersMapObject<StateSchema>): ReducerManager {
-	const reducers: ReducersMapObject = { ...initialReducers }
+	const reducers = { ...initialReducers }
 
 	let combinedReducer = combineReducers(reducers)
 
@@ -18,6 +18,7 @@ export function createReducerManager(initialReducers: ReducersMapObject<StateSch
 			if (keysToRemove.length > 0) {
 				state = { ...state }
 				keysToRemove.forEach((key) => {
+					// @ts-expect-error sdqasdsa
 					delete state[key]
 				})
 				keysToRemove = []
@@ -36,6 +37,7 @@ export function createReducerManager(initialReducers: ReducersMapObject<StateSch
 			if (!key || !reducers[key]) {
 				return
 			}
+			// @ts-expect-error sdqasdsa
 			delete reducers[key]
 			keysToRemove.push(key)
 

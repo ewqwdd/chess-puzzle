@@ -1,11 +1,13 @@
-import { CombinedState, Reducer, configureStore } from '@reduxjs/toolkit'
+import { CombinedState, Reducer, ReducersMapObject, configureStore } from '@reduxjs/toolkit'
 import { StateSchema } from '../types/types'
 import { createReducerManager } from './reducerManager'
+import { boardReducer } from 'entities/Board'
 
-export const createReduxStore = (initialState?: StateSchema, asyncReducers?: DeepPartial<StateSchema>) => {
+export const createReduxStore = (initialState?: StateSchema, asyncReducers?: DeepPartial<ReducersMapObject>) => {
 
-	const rootReducers:StateSchema = {
-		...asyncReducers
+	const rootReducers = {
+		...asyncReducers,
+		board: boardReducer
 	}
 	const reducerManager = createReducerManager(rootReducers)
 
@@ -17,3 +19,6 @@ export const createReduxStore = (initialState?: StateSchema, asyncReducers?: Dee
 
 	return store
 }
+
+type store = ReturnType<typeof createReduxStore>
+export type AppDispatch = store['dispatch']
