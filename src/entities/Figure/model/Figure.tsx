@@ -1,5 +1,4 @@
 import { BoardCells, CellCords } from 'entities/Board'
-import { playerColor } from 'entities/Board/model/types/Board'
 
 export enum FigureTypes {
     KNIGHT = 'knight',
@@ -8,22 +7,16 @@ export enum FigureTypes {
     QUEEN = 'queen',
     BISHOP = 'bishop',
     ROOK = 'rook',
-    KING_ENEMY = 'king_enemy'
 }
 
 export class Figure {
 
 	type?: FigureTypes
 	boardSize: number = 8
-	getAllowed?: (cell: CellCords, board: BoardCells, kingPosition: CellCords) => CellCords[]
-	getAllowedNoFilter?: (cell: CellCords, board: BoardCells) => CellCords[]
-	getAttacking?: (cell: CellCords, board: BoardCells) => CellCords[]
-	color: playerColor
 	isAlly: boolean
 
-	constructor(isAlly: boolean, color: playerColor) {
+	constructor(isAlly: boolean) {
 		this.isAlly = isAlly
-		this.color = color
 	}
 
 }

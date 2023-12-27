@@ -3,7 +3,7 @@ export const ClassNames = (className: string = '', mods: Record<string, boolean>
 		className,
 		...Object.entries(mods)
 			.filter(([, value]) => value)
-			.map(elem => elem[1]),
+			.map(elem => elem[0]),
 		...extra
 	].join(' ')
 }

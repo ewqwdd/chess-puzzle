@@ -12,7 +12,8 @@ const indexes = [
 ]
 
 export const buildGetAllowedKing = (indexes:number[][]) => 
-	([row, col]: CellCords, board: BoardCells, boardSize: number, isAlly: boolean) => {
+	([row, col]: CellCords, board: BoardCells, boardSize: number) => {
+		const isAlly = board[row][col].figure?.isAlly
 		const allowed: CellCords[] = []
 		for(const [indexI, indexJ] of indexes){
 			const i = row+indexI

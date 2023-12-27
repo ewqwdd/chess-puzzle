@@ -3,8 +3,7 @@ import { FigureTypes } from '../Figure'
 import { getAllowedNoFilter } from '../getAllowed/noFilter/getAllowedNoFilter'
 
 const boardSize = 8
-
-export const getAttacking: DeepPartial<Record<FigureTypes, (cell: CellCords, board: BoardCells) => CellCords[]>> = {
+export const getAttacking: Record<FigureTypes, (cell: CellCords, board: BoardCells, boardSize: number) => CellCords[]> = {
 	pawn: ([row, col]: CellCords, board: BoardCells) => {
 		const isAlly = board[row][col].figure?.isAlly
 		const atacked: CellCords[] = []
@@ -20,6 +19,9 @@ export const getAttacking: DeepPartial<Record<FigureTypes, (cell: CellCords, boa
 		return atacked
 	},
 	bishop: getAllowedNoFilter.bishop,
-	king: getAllowedNoFilter.king
+	king: getAllowedNoFilter.king,
+	knight: getAllowedNoFilter.knight,
+	queen: getAllowedNoFilter.queen,
+	rook: getAllowedNoFilter.rook
 }
 

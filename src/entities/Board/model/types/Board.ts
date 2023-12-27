@@ -28,9 +28,19 @@ export interface BoardSchema {
     enemyKingPos: CellCords
     allyKingAtacked?: boolean
     enemyKingAtacked?: boolean
+    puzzle?: Move[]
+    failed?: boolean
+    playerColor?: playerColor
+    lastMove?: Move
 }
 
 export interface FigurePosition {
-    figure: Figure
+    figure: FigureTypes
+    isAlly: boolean
     position: CellCords
+}
+
+export interface Move {
+    move: [CellCords, CellCords]
+    killed?: FigureTypes 
 }

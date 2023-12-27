@@ -3,7 +3,14 @@ import { BoardSchema, CellCords } from '../types/Board'
 import { fetchPuzzle } from '../services/fetchPuzzle'
 import { setBoard } from '../helpers/setBoard'
 import { clearAtackedCells, setAttackedCellsForAll } from 'entities/Figure/helpers/attackedCells'
-import { FigureTypes } from 'entities/Figure'
+import { FigureTypes, figureMap } from 'entities/Figure'
+import { getAllowed } from 'entities/Figure/model/getAllowed/filter/getAllowed'
+import captureSound from 'shared/sound/capture.wav'
+import moveSound from 'shared/sound/move-self.wav'
+
+const capture = new Audio(captureSound)
+const move = new Audio(moveSound)
+
 
 const initialState: BoardSchema = {
 	board: Array(8).fill(null).map(() => Array(8).fill(null).map(() => ({atacked: []}))),
@@ -21,17 +28,30 @@ const boardSlice = createSlice({
 			state.current = action.payload
 			const [row, col] = action.payload
 			const cell = state.board[row][col]
-			const enabled = cell.figure?.getAllowed?.(action.payload, [...state.board], state.allyKingPos) ?? []
+			if (!cell.figure?.type) return
+			const enabled = getAllowed[cell.figure.type](action.payload, [...state.board], state.allyKingPos) ?? []
 			state.enabled = enabled
 		},
 
 		move(state, action: PayloadAction<CellCords>) {
 			const {board, current} = state
+			let isKilled: boolean
 			if (!current) return
 			const [rowPrev, colPrev] = current
 			const [row, col] = action.payload
+			const arrMove = [...current, ...action.payload]
 			const figure = board[rowPrev][colPrev].figure
 			if(!figure) return
+			if(board[row][col].figure) {
+				isKilled = true
+			}
+			else {
+				isKilled = false
+			}
+			state.lastMove = {
+				move: [current, [row, col]],
+				killed: board[row][col].figure?.type
+			}
 			board[row][col].figure = figure
 			board[rowPrev][colPrev].figure = undefined
 			clearAtackedCells(board)
@@ -42,11 +62,56 @@ const boardSlice = createSlice({
 			}
 			state.current = undefined
 			state.enabled = []
+			if (state.puzzle?.[0].move.flat(1).every((elem, index) => elem === arrMove[index])) {
+				state.puzzle.shift()
+			}
+			else {
+				state.failed = true
+			}
+
+			if(isKilled) {
+				capture.play()
+			}
+			else {
+				move.play()
+			}
 		},
+		
+		moveFree(state, action: PayloadAction<[CellCords, CellCords]>) {
+			const [[row, col], [rowNext, colNext]] = action.payload
+			state.board[rowNext][colNext].figure = state.board[row][col].figure
+			state.board[row][col].figure = undefined
+		}, 
+
+		reverseLast(state) {
+			if(!state.lastMove) return
+			const [[row, col], [rowNext, colNext]] = state.lastMove.move
+			const killed = state.lastMove.killed
+			state.board[row][col].figure = state.board[rowNext][colNext].figure
+			state.board[rowNext][colNext].figure = killed ? figureMap(killed, false) : undefined
+			state.failed = false
+		}, 
 
 		clearCurrent(state) {
 			state.current = undefined
 			state.enabled = []
+		},
+
+		moveNext(state) {
+			if (state.failed) return
+			if(!state.puzzle?.length || state.puzzle.length<=1) return
+			const [[row, col], [rowNext, colNext]] = state.puzzle[0].move
+			const figure = state.board[row][col].figure
+			const figureNext = state.board[rowNext][colNext].figure
+			state.board[rowNext][colNext].figure = figure
+			state.board[row][col].figure = undefined
+			state.puzzle.shift()
+			if(figureNext) {
+				capture.play()
+			}
+			else {
+				move.play()
+			}
 		},
 
 		setAllyKingPos(state, action: PayloadAction<CellCords>) {
@@ -64,10 +129,11 @@ const boardSlice = createSlice({
 
 		build.addCase(fetchPuzzle.fulfilled, (state, action) => {
 			state.isLoading = false
-			const {allyKingPos, board, enemyKingPos} = setBoard(action.payload, state.board)
+			const {allyKingPos, board, enemyKingPos} = setBoard(action.payload.data, state.board)
 			state.board = board
+			state.puzzle = action.payload.puzzle
 			if (allyKingPos) state.allyKingPos = allyKingPos
-			if(enemyKingPos) state.enemyKingPos = enemyKingPos
+			if (enemyKingPos) state.enemyKingPos = enemyKingPos
 		})
 	}
 })

@@ -1,0 +1,32 @@
+.overlay {
+    display: none;
+    overflow: clip;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: 0.15s ease-in-out;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 1;
+    z-index: var(--overlay-z);
+    top: 0;
+    left: 0;
+    animation: appear 0.15s ease-in-out;
+
+    &.visible {
+        display: flex !important;  
+    }
+
+    &.close {
+        opacity: 0;
+    }
+}
+
+@keyframes appear {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+
+    }
+}

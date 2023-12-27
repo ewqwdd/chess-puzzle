@@ -13,7 +13,7 @@ export const checkIfCheckmate = (
 	boardCopy[rowNext][colNext].figure = figure
 	clearAtackedCells(boardCopy)
 	setAttackedCellsForAll(boardCopy)
-	console.log(boardCopy)
-	if (boardCopy[kingRow][kingCol].atacked.length>0 && boardCopy[row][col].atacked.some(v => !v?.isAlly)) return false
+	// проверка работает только на белого короля и фигуры!
+	if (figure.isAlly && boardCopy[kingRow][kingCol].atacked.length>0 && boardCopy[kingRow][kingCol].atacked.some(v => !v?.isAlly)) return false
 	return true
 }

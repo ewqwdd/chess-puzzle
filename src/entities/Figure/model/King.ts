@@ -1,16 +1,5 @@
-import { BoardCells, CellCords, playerColor } from 'entities/Board'
+import { BoardCells, CellCords } from 'entities/Board'
 import { Figure, FigureTypes } from './Figure'
-
-const indexes = [
-	[1, 1],
-	[1, -1],
-	[-1, -1],
-	[-1, 1],
-	[1, 0],
-	[0, -1],
-	[-1, 0],
-	[0, 1]
-]
 
 export const buildGetAllowedKing = (indexes:number[][]) => 
 	([row, col]: CellCords, board: BoardCells, boardSize: number, isAlly: boolean) => {
@@ -30,15 +19,12 @@ export const buildGetAllowedKing = (indexes:number[][]) =>
 		return allowed
 	}
 
-const getAllowedKing = buildGetAllowedKing(indexes)
 
 export class King extends Figure {
-	constructor(isAlly: boolean, color: playerColor) {
-		super(isAlly, color)
+	constructor(isAlly: boolean) {
+		super(isAlly)
 		this.type = FigureTypes.KING
 	}
-	getAllowed = ([row, col]: CellCords, board: BoardCells,) => getAllowedKing([row, col], board, this.boardSize, this.isAlly)
-	getAttacking = this.getAllowed
 }
 
 

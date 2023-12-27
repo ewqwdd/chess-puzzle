@@ -9,7 +9,9 @@ export default function App() {
 		<div className={ColorMapper('bg-primary', 'bg')}>
 			<HStack gap={20} className={styles.page}>
 				<>
-					<RoutesConfig />
+					<div id='page-left'>
+						<RoutesConfig />
+					</div>
 					<Sidebar />
 				</>
 			</HStack>

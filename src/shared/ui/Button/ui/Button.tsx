@@ -1,13 +1,15 @@
-import { HTMLAttributes, ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { ClassNames } from 'shared/lib/ClassaNames/ClassNames'
 import { Color, ColorMapper } from 'shared/lib/ColorMapper/ColorMapper'
 import styles from './Button.module.less'
 
-interface ButtonProps extends HTMLAttributes<HTMLButtonElement>{
+interface ButtonProps<T extends React.ElementType> {
     children: ReactNode
     color?: Color
     square?: boolean
     inverted?: boolean
+	as?: T
+	className?: string
 }
 
 const secondColorMap: DeepPartial<Record<Color, Color>> = {
@@ -28,9 +30,19 @@ const textColorMap: DeepPartial<Record<Color, Color>> = {
 	'secondary': 'bg-primary'
 }
 
-export default function Button({children, className, inverted, color = 'item', square, ...props}: ButtonProps) {
+export default function Button<T extends React.ElementType = 'button'>({
+	children, 
+	className, 
+	inverted, 
+	color = 'item', 
+	square, 
+	as, 
+	...props
+}: ButtonProps<T>
+	& Omit<React.ComponentPropsWithoutRef<T>, keyof ButtonProps<T>>) {
+	const Component = as || 'button'
 	return (
-		<button 
+		<Component 
 			{...props}
 			className={
 				ClassNames(
@@ -55,6 +67,6 @@ export default function Button({children, className, inverted, color = 'item', s
 				}>
 				{children}
 			</div>
-		</button>
+		</Component>
 	)
 }

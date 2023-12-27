@@ -1,17 +1,20 @@
 import { MouseEventHandler, memo, useCallback } from 'react'
-import { BoardCells, CellCords } from '../model/types/Board'
+import { BoardCells, CellCords, playerColor } from '../model/types/Board'
 import { HStack } from 'shared/ui/Flex'
 import BoardCell from './BoardCell/BoardCell'
 import { boardActions } from '../model/slice/boardSlice'
 import { useAppDispatch } from 'shared/hooks/useAppDispatch'
+import FailedModal from './FailedModal/FailedModal'
 
 interface BoardProps {
 	boardCells: BoardCells
 	enabled: CellCords[]
 	current?: CellCords
+	isFailed?: boolean
+	isCompleted?: boolean
 }
 
-export default memo(function Board({boardCells, enabled}: BoardProps) {
+export default memo(function Board({boardCells, enabled, isFailed}: BoardProps) {
 
 	const dispatch = useAppDispatch()
 
@@ -25,12 +28,19 @@ export default memo(function Board({boardCells, enabled}: BoardProps) {
 	const enabledClick = useCallback((cords: CellCords) => {
 		return () => {
 			dispatch(boardActions.move(cords))
+			setTimeout(() => {
+				dispatch(boardActions.moveNext())
+			}, 500)
 		}
 	}, [dispatch])
 
 	const clear = useCallback(() => {
 		dispatch(boardActions.clearCurrent())
 	}, [dispatch])
+
+	const retry = useCallback(() => {
+		dispatch(boardActions.reverseLast())
+	}, [])
 	
 	return (
 		<div>
@@ -42,7 +52,9 @@ export default memo(function Board({boardCells, enabled}: BoardProps) {
 							const cords: CellCords = [rowIndex, colIndex]
 							const isEnabled = !!enabled.find(cord => cord[0] === rowIndex && cord[1] === colIndex)
 							return (
-								<BoardCell 
+								<BoardCell
+									playerColor={playerColor.WHITE}
+									altColor={playerColor.BLACK}
 									cell={elem} 
 									isBlack={isBlack} 
 									key={colIndex} 
@@ -56,6 +68,8 @@ export default memo(function Board({boardCells, enabled}: BoardProps) {
 					}</HStack>
 				)
 			)}
+			<FailedModal isVisible={isFailed} retry={retry} />
+			
 		</div>
 	)
 }

@@ -1,4 +1,4 @@
 export const htmlLoader = {
-        test: /\.html$/i,
-        loader: "html-loader",
-      }
+	test: /\.html$/i,
+	loader: 'html-loader',
+}

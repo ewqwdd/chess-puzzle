@@ -5,13 +5,13 @@ import KingWhite from 'shared/icons/figures/King_white.svg'
 import KnightWhite from 'shared/icons/figures/Knight_white.svg'
 import PawnWhite from 'shared/icons/figures/Pawn_white.svg'
 import QueenWhite from 'shared/icons/figures/Queen_white.svg'
-import RookWhite from 'shared/icons/figures/Bishop_white.svg'
+import RookWhite from 'shared/icons/figures/Rook_white.svg'
 import KingBlack from 'shared/icons/figures/King_black.svg'
 import BishopBlack from 'shared/icons/figures/Bishop_black.svg'
 import KnightBlack from 'shared/icons/figures/Knight_black.svg'
 import PawnBlack from 'shared/icons/figures/Pawn_black.svg'
 import QueenBlack from 'shared/icons/figures/Queen_black.svg'
-import RookBlack from 'shared/icons/figures/Bishop_black.svg'
+import RookBlack from 'shared/icons/figures/Rook_black.svg'
 import { playerColor } from 'entities/Board'
 import styles from './Figure.module.less'
 import { ClassNames } from 'shared/lib/ClassaNames/ClassNames'
@@ -23,7 +23,6 @@ const figuresMapWhite: Record<FigureTypes, ReactNode> = {
 	pawn: <PawnWhite />,
 	queen: <QueenWhite />,
 	rook: <RookWhite />,
-	king_enemy: <KingBlack />
 }
 
 const figuresMapBlack: Record<FigureTypes, ReactNode> = {
@@ -33,7 +32,6 @@ const figuresMapBlack: Record<FigureTypes, ReactNode> = {
 	pawn: <PawnBlack />,
 	queen: <QueenBlack />,
 	rook: <RookBlack />,
-	king_enemy: <KingWhite />
 }
 
 interface FigureProps extends HTMLAttributes<HTMLButtonElement>{
