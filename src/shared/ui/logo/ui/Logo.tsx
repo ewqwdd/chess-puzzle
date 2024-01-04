@@ -1,4 +1,4 @@
-import { MutableRefObject, memo, useEffect, useRef, useState } from 'react'
+import { MutableRefObject, ReactNode, memo, useEffect, useRef, useState } from 'react'
 import Heading from 'shared/ui/Heading/Heading'
 import styles from './Logo.module.less'
 import { ClassNames } from 'shared/lib/ClassaNames/ClassNames'
@@ -6,9 +6,11 @@ import { ColorMapper } from 'shared/lib/ColorMapper/ColorMapper'
 
 interface LogoProps {
     className?: string
+	size?: 1 | 2 | 3 | 4
+	children?: ReactNode
 }
 
-export default memo(function Logo({className}: LogoProps) {
+export default memo(function Logo({className, size = 2, children = 'CHESS PUZZLES'}: LogoProps) {
 	const headingRef = useRef() as MutableRefObject<HTMLHeadingElement>
 	const max = Math.max(headingRef.current?.clientWidth, headingRef.current?.clientHeight)
 	const [pos, setPos] = useState<number>(0)
@@ -26,8 +28,8 @@ export default memo(function Logo({className}: LogoProps) {
 	}, [])
 
 	return (
-		<Heading ref={headingRef} size={2} color="primary" align="center" className={ClassNames(className, {}, [styles.logo, ColorMapper('bg-secondary', 'bg')])}>
-            CHESS PUZZLES
+		<Heading ref={headingRef} size={size} color="primary" align="center" className={ClassNames(className, {}, [styles.logo, ColorMapper('bg-secondary', 'bg')])}>
+			{children}
 			<span className={styles.ripple} style={{
 				left: pos,
 				top: pos,

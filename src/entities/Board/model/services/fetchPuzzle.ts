@@ -1,70 +1,26 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { FigurePosition, Move } from '../types/Board'
+import { Puzzle } from '../types/Board'
 import { StateSchema } from 'app/store'
-import { FigureTypes } from 'entities/Figure'
+import $createApi from 'shared/api/api'
+import { AxiosError } from 'axios'
 
-export const fetchPuzzle = createAsyncThunk<{data: FigurePosition[], playerWhite: boolean, puzzle: Move[]}, void, {state: StateSchema}>(
+export const fetchPuzzle = createAsyncThunk<{playerWhite: boolean} & Puzzle, void, {state: StateSchema, rejectValue: string}>(
 	'boardSlice/fetchPuzzle',
-	async () => {
-		await new Promise((resolve) => setTimeout(() => {resolve('')}, 500))
-		const data: FigurePosition[] = [
-			{
-				figure: FigureTypes.PAWN,
-				isAlly: true,
-				position: [6, 2]
-			},
-			{
-				figure: FigureTypes.PAWN,
-				isAlly: true,
-				position: [6, 3]
-			},
-			{
-				figure: FigureTypes.PAWN,
-				isAlly: false,
-				position: [4, 2]
-			},
-			{
-				figure: FigureTypes.BISHOP,
-				isAlly: false,
-				position: [0, 7]
-			},
-			{
-				figure: FigureTypes.KING,
-				isAlly: true,
-				position: [0, 3]
-			},
-			{
-				figure: FigureTypes.KNIGHT,
-				isAlly: true,
-				position: [3, 4]
-			},
-			{
-				figure: FigureTypes.QUEEN,
-				isAlly: true,
-				position: [5, 7]
-			},
-			{
-				figure: FigureTypes.ROOK,
-				isAlly: false,
-				position: [4, 7]
-			},
-			{
-				figure: FigureTypes.KING,
-				isAlly: false,
-				position: [2, 7]
+	// @ts-expect-error sdsadasdas
+	async (_, ThunkApi) => {
+		try {
+			const {data} = await $createApi(ThunkApi.dispatch).get<Puzzle>('puzzles')
+			if (!data) {
+				console.log(JSON.stringify(data))
+				return ThunkApi.rejectWithValue('You have solved all puzzles!')
 			}
-		]
-		const puzzle: Move[] = [
-			{
-				move: [[5, 7], [5, 2]]
-			},
-			{
-				move: [[0, 7], [1, 6]]
-			},
-			{
-				move: [[6, 3], [5, 3]]
+			return {...data, playerWhite: true}
+		}
+		catch(err) {
+			if (err instanceof AxiosError) {
+				return ThunkApi.rejectWithValue('Couldn\'t load a puzzle, try again later')
 			}
-		]
-		return {data, playerWhite: true, puzzle}
+		}
+		
 	}
 )

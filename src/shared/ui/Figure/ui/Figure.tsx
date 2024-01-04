@@ -1,5 +1,5 @@
 import { FigureTypes } from 'entities/Figure'
-import { HTMLAttributes, ReactNode, memo } from 'react'
+import { HTMLAttributes, ReactNode, memo, useEffect, useState } from 'react'
 import BishopWhite from 'shared/icons/figures/Bishop_white.svg'
 import KingWhite from 'shared/icons/figures/King_white.svg'
 import KnightWhite from 'shared/icons/figures/Knight_white.svg'
@@ -15,6 +15,7 @@ import RookBlack from 'shared/icons/figures/Rook_black.svg'
 import { playerColor } from 'entities/Board'
 import styles from './Figure.module.less'
 import { ClassNames } from 'shared/lib/ClassaNames/ClassNames'
+import { DragPreviewImage, useDrag } from 'react-dnd'
 
 const figuresMapWhite: Record<FigureTypes, ReactNode> = {
 	bishop: <BishopWhite />,
@@ -37,13 +38,40 @@ const figuresMapBlack: Record<FigureTypes, ReactNode> = {
 interface FigureProps extends HTMLAttributes<HTMLButtonElement>{
     color?: playerColor
     type: FigureTypes
+	figureDrag?: () => void
+
 }
 
-export default memo(function Figure({color, type, className, ...props}: FigureProps) {
+export default memo(function Figure({color, type, className, onClick, figureDrag, ...props}: FigureProps) {
+	const [{isDragging}, drag, preview] = useDrag(() => ({
+		type: 'piece',
+		collect: monitor => ({
+		  isDragging: !!monitor.isDragging(),
+		}),
+	  }))
+	const [image, setImage] = useState<string>()
+
+	  useEffect(() => {
+		
+		import(`shared/images/figures/${type.charAt(0).toUpperCase() + type.substring(1)}_${color}.png`).then(
+			(data) => {
+				setImage(data.default)
+			}
+		)
+	  }, [])
+
+	useEffect(() => {
+		if (isDragging) {
+			figureDrag?.()
+		}
+	}, [isDragging])
 	return (
-		<button {...props} className={ClassNames(className, {}, [styles.figure])}>
-			{color === playerColor.BLACK ? figuresMapBlack[type] : figuresMapWhite[type]}
-		</button>
+		<>
+			<DragPreviewImage connect={preview} src={image ?? ''} />
+			<button ref={drag} {...props} onClick={onClick} className={ClassNames(className, {}, [styles.figure])}>
+				{color === playerColor.BLACK ? figuresMapBlack[type] : figuresMapWhite[type]}
+			</button>
+		</>
 	)
 }
 )

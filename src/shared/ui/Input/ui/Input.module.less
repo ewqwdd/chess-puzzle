@@ -1,0 +1,104 @@
+.input {
+    transition: 0.05s ease-in-out;
+    font-size: 18px;
+    padding: 8px 0;
+    width: 100%;
+
+    &::placeholder {
+        opacity: 0.7;
+    }
+}
+
+.wrapper {
+    padding: 0 36px;
+    position: relative;
+    display: inline-block;
+    border-radius: 5px;
+
+    &.leftP {
+        padding-left: 18px;
+    }
+    &.rightP {
+        padding-right: 18px;
+    }
+
+    .mui {
+        padding: 0 18px;
+    }
+}
+
+.primary, .secondary {
+    &.default {
+        border: 2px solid var(--item-border);
+    }
+    &.mui {
+        background: rgba(255, 255, 255, 0.1);
+        position: relative;
+        border-bottom: 3px solid var(--item-border);
+        border-radius: 4px 4px 0 0;
+        transition: 0.2s ease-in-out;
+        &::after {
+            transition: 0.2s ease-in-out;
+            content: "";
+            width: 0px;
+            position: absolute;
+            bottom: -3px;
+            left: 50%;
+            translate: -50%;
+            background: white;
+            height: 3px;
+            opacity: 0.5;
+        }
+    }
+
+    &:has(.input:focus) {
+        &.default {
+            border: 2px solid var(--item-border-lighter);
+        }
+        &.mui {
+            background: rgba(255, 255, 255, 0.15);
+            &::after {
+            width: 100%;
+            opacity: 0.7;
+        }
+    
+    }
+    }
+
+    &:hover {
+        &.default {
+            border: 2px solid var(--item-border-lighter);
+        }
+        &.mui {
+            border-bottom: 3px solid var(--item-border-lighter);
+        }
+    }   
+}
+
+.secondary {
+    border: 2px solid var(--item-border);
+    &:focus, &:hover {
+    border: 2px solid var(--item-border-lighter);
+    }
+}
+
+.side {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 36px;
+    padding: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &>* {
+        opacity: 0.7;
+    }
+}
+
+.start {
+    left: 0;
+}
+.end {
+    right: 0;
+}

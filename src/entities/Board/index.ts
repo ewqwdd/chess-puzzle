@@ -1,6 +1,6 @@
-import { getBoard, getCurrent, getEnabled, getIsCompleted, getIsFailed, getIsLoading } from './model/selectors/selectors'
+import { getBoard, getCurrent, getEnabled, getIsCompleted, getIsFailed, getIsLoading, getPuzzle } from './model/selectors/selectors'
 import { boardReducer } from './model/slice/boardSlice'
-import { BoardCells, BoardSchema, CellCords, playerColor } from './model/types/Board'
+import { BoardCells, BoardSchema, CellCords, Puzzle, playerColor } from './model/types/Board'
 import Board from './ui/Board'
 import FailedModal from './ui/FailedModal/FailedModal'
 
@@ -14,6 +14,8 @@ export {
 	getCurrent,
 	getIsFailed,
 	FailedModal,
-	getIsCompleted
+	getIsCompleted,
+	getPuzzle,
+	type Puzzle
 }
 export type { BoardSchema, BoardCells, CellCords }

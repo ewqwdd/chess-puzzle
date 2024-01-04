@@ -14,7 +14,7 @@
 
 @font-face {
   font-family: Intro;
-  src: url("../fonts/Intro/Intro-Trial-Rg.ttf");
+  src: url("../fonts/Intro/IntroRust-Base.otf") format("opentype");
 }
 
 body {
@@ -64,8 +64,20 @@ body {
   .colorBg(--item-dark);
 }
 
+.item-mediumbg {
+  .colorBg(--item-medium);
+}
+
 .darkbg {
   .colorBg(--dark);
+}
+
+.warningbg {
+  .colorBg(--warning-color)
+}
+
+.errorbg {
+  .colorBg(--error-color)
 }
 
 .primarytext {
@@ -92,6 +104,52 @@ body {
 .colorText(--item-dark);
 }
 
+.item-mediumtext {
+  .colorText(--item-medium);
+}
+
 .darktext {
 .colorText(--dark);
+}
+
+.errortext {
+  .colorText(--error-color)
+}
+
+.warningtext {
+  .colorText(--warning-color)
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1); 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.3); 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.4); 
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: .5;
+  }
 }

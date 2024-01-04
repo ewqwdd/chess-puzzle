@@ -16,6 +16,7 @@ type DeepPartial<T> = T extends object ? {
 
 type ValueOf<T> = T[keyof T]
 
+
 declare module '*.png'
 declare module '*.jpg'
 declare module '*.jpeg'

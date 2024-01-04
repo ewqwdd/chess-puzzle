@@ -8,7 +8,7 @@ import { buildDeServer } from './buildDevServer/buildDevServer'
 
 export const buildWebpackConfig = (params: BuildParams): webpack.Configuration => {
 
-	const {isDev, paths, mode, port} = params
+	const {isDev, paths, mode, port, api} = params
 
 	return {
 		// mode
@@ -26,7 +26,7 @@ export const buildWebpackConfig = (params: BuildParams): webpack.Configuration =
 			extensions: ['.tsx', '.ts', '.js'],
 			modules: [paths.src, 'node_modules']
 		},
-		plugins: buildPlugins(paths, isDev),
+		plugins: buildPlugins(paths, isDev, api),
 		optimization: {
 			runtimeChunk: 'single'
 		},

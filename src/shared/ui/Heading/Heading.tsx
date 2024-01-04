@@ -1,4 +1,4 @@
-import { ForwardedRef, ReactNode, forwardRef, memo, useMemo } from 'react'
+import { ReactNode, forwardRef, memo, useMemo } from 'react'
 import { ClassNames } from 'shared/lib/ClassaNames/ClassNames'
 import { Color, ColorMapper } from 'shared/lib/ColorMapper/ColorMapper'
 import styles from './Heading.module.less'
@@ -6,7 +6,7 @@ import styles from './Heading.module.less'
 type HeadingSize = 1 | 2 | 3 | 4
 type Align = 'center' | 'left' | 'right'
 
-interface HeadingProps {
+interface HeadingProps <T extends React.ElementType> {
     size?: HeadingSize
     margin?: boolean
     className?: string
@@ -14,7 +14,12 @@ interface HeadingProps {
     inverted?: boolean
     children: ReactNode
     align?: Align
+	as?: T
 }
+
+export type PolymorphicRef<C extends React.ElementType> = React.ComponentPropsWithRef<
+  C
+>['ref'];
 
 type TagType = 'h1' | 'h2' | 'h3' | 'h4'
 
@@ -22,21 +27,29 @@ const headingMap = (size: HeadingSize): TagType => 'h' + size.toString() as TagT
 
 const marginMap = (size: HeadingSize) => styles['m' + size.toString()]
 
-export default memo(forwardRef(function Heading(props: HeadingProps, ref: ForwardedRef<HTMLHeadingElement>) {
-	// eslint-disable-next-line react/prop-types
-	const {children, className, color, inverted, margin, size = 1, align = 'left'} = props
+function Heading <T extends React.ElementType = 'h1'>(
+	props: HeadingProps<T> & 
+			Omit<React.ComponentPropsWithRef<T>, 
+			keyof HeadingProps<T>>, 
+	ref: PolymorphicRef<T>) {
 
-	const Tag = useMemo(() => headingMap(size), [size])
+	const {children, className, color, inverted, margin, size = 1, align = 'left', as: Cmp, ...rest} = props
+
+	const Tag = useMemo(() => Cmp ? Cmp : headingMap(size), [size])
 	return (
 		<Tag 
 			ref={ref}
 			className={ClassNames(
 				className, 
 				{[marginMap(size)]: Boolean(margin)}, 
-				[ColorMapper(color, 'text', inverted), styles[Tag], styles[align]])
-			}>
+				[ColorMapper(color, 'text', inverted), styles[headingMap(size)], styles[align]])
+			}
+			{...rest}
+		>
 			{children}
 		</Tag>
 	)
-}))
+}
+
+export default memo(forwardRef(Heading)) as typeof Heading
 

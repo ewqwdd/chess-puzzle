@@ -5,6 +5,7 @@ import { FigureTypes, figureMap } from 'entities/Figure'
 export const setBoard = (positions: FigurePosition[], board: BoardCells) => {
 	let allyKingPos: CellCords | undefined
 	let enemyKingPos: CellCords | undefined
+	console.log(positions)
 	positions.forEach(({figure, position: [row, column], isAlly}) => {
 		board[row][column].figure = figureMap(figure, isAlly)
 		if (figure === FigureTypes.KING) {

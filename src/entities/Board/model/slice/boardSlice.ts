@@ -7,6 +7,7 @@ import { FigureTypes, figureMap } from 'entities/Figure'
 import { getAllowed } from 'entities/Figure/model/getAllowed/filter/getAllowed'
 import captureSound from 'shared/sound/capture.wav'
 import moveSound from 'shared/sound/move-self.wav'
+import { savePuzzle } from '../services/savePuzzle'
 
 const capture = new Audio(captureSound)
 const move = new Audio(moveSound)
@@ -17,7 +18,8 @@ const initialState: BoardSchema = {
 	current: undefined,
 	enabled: [],
 	allyKingPos: [7, 4],
-	enemyKingPos: [0, 4]
+	enemyKingPos: [0, 4],
+	saved: {}
 }
 
 const boardSlice = createSlice({
@@ -62,6 +64,7 @@ const boardSlice = createSlice({
 			}
 			state.current = undefined
 			state.enabled = []
+			state.blocked = true
 			if (state.puzzle?.[0].move.flat(1).every((elem, index) => elem === arrMove[index])) {
 				state.puzzle.shift()
 			}
@@ -90,6 +93,7 @@ const boardSlice = createSlice({
 			state.board[row][col].figure = state.board[rowNext][colNext].figure
 			state.board[rowNext][colNext].figure = killed ? figureMap(killed, false) : undefined
 			state.failed = false
+			state.blocked = false
 		}, 
 
 		clearCurrent(state) {
@@ -106,6 +110,7 @@ const boardSlice = createSlice({
 			state.board[rowNext][colNext].figure = figure
 			state.board[row][col].figure = undefined
 			state.puzzle.shift()
+			state.blocked = false
 			if(figureNext) {
 				capture.play()
 			}
@@ -120,20 +125,57 @@ const boardSlice = createSlice({
 
 		setEnemyKingPos(state, action: PayloadAction<CellCords>) {
 			state.enemyKingPos = action.payload
+		},
+
+		clear(state) {
+			state.board = Array(8).fill(null).map(() => Array(8).fill(null).map(() => ({atacked: []})))
+			state.id = undefined
+			state.allyKingAtacked = undefined
+			state.current = undefined
+			state.enabled = undefined
+			state.blocked = undefined
+			state.puzzle = undefined
 		}
 	},
 	extraReducers: (build) => {
 		build.addCase(fetchPuzzle.pending, (state) => {
 			state.isLoading = true
+			state.board = Array(8).fill(null).map(() => Array(8).fill(null).map(() => ({atacked: []})))
+			state.id = undefined
+			state.allyKingAtacked = undefined
+			state.current = undefined
+			state.enabled = undefined
+			state.blocked = undefined
+			state.puzzle = undefined
+			state.error = undefined
 		})
 
 		build.addCase(fetchPuzzle.fulfilled, (state, action) => {
+			state.id = action.payload.id
 			state.isLoading = false
-			const {allyKingPos, board, enemyKingPos} = setBoard(action.payload.data, state.board)
+			const {allyKingPos, board, enemyKingPos} = setBoard(action.payload.board, state.board)
 			state.board = board
 			state.puzzle = action.payload.puzzle
 			if (allyKingPos) state.allyKingPos = allyKingPos
 			if (enemyKingPos) state.enemyKingPos = enemyKingPos
+		})
+
+		build.addCase(fetchPuzzle.rejected, (state, action) => {
+			state.isLoading = false
+			state.error = action.payload as string
+		})
+
+		build.addCase(savePuzzle.pending, (state) => {
+			state.saved.isLoading = true
+		})
+
+		build.addCase(savePuzzle.rejected, (state, action) => {
+			state.saved.error = action.payload
+		})
+
+		build.addCase(savePuzzle.fulfilled, (state) => {
+			state.saved.isSuccess = true
+			state.saved.isLoading = false
 		})
 	}
 })

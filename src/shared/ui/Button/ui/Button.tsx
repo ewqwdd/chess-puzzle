@@ -35,7 +35,6 @@ export default function Button<T extends React.ElementType = 'button'>({
 	className, 
 	inverted, 
 	color = 'item', 
-	square, 
 	as, 
 	...props
 }: ButtonProps<T>

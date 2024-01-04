@@ -1,4 +1,14 @@
-export type Color = 'primary' | 'secondary' | 'item' | 'bg-primary' | 'bg-secondary' | 'item-dark' | 'dark'
+export type Color = 
+'primary' | 
+'secondary' | 
+'item' | 
+'bg-primary' | 
+'bg-secondary' | 
+'item-dark' | 
+'dark' | 
+'item-medium' |
+'warning' |
+'error'
 type target = 'bg' | 'text'
 
 export const ColorMapper = (color: Color = 'primary', target: target = 'text', inverted?: boolean) => {

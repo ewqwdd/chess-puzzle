@@ -12,9 +12,11 @@ export default (env: BuildEnv) => {
 	const mode = env.mode || 'development'
 	const port = env.port || 8000
 	const isDev = mode === 'development'
+	const api = 'http://localhost:5000/'
 
 	const params: BuildParams = {
 		port,
+		api,
 		isDev,
 		mode,
 		paths: {

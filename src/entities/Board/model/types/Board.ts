@@ -32,6 +32,14 @@ export interface BoardSchema {
     failed?: boolean
     playerColor?: playerColor
     lastMove?: Move
+    blocked?: boolean
+    id?: number
+    error?: string
+    saved: {
+        isLoading?: boolean
+        error?: string
+        isSuccess?: boolean
+    }
 }
 
 export interface FigurePosition {
@@ -43,4 +51,11 @@ export interface FigurePosition {
 export interface Move {
     move: [CellCords, CellCords]
     killed?: FigureTypes 
+}
+
+export interface Puzzle {
+    board: FigurePosition[]
+    puzzle: Move[]
+    id: number
+    createdAt?: Date
 }

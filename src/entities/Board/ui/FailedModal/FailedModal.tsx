@@ -1,6 +1,6 @@
 import { ClassNames } from 'shared/lib/ClassaNames/ClassNames'
 import { Modal } from 'shared/ui/Modal'
-import styles from './Failedodal.module.less'
+import styles from './FailedModal.module.less'
 import Button from 'shared/ui/Button/ui/Button'
 import { memo } from 'react'
 import { HStack, VStack } from 'shared/ui/Flex'
@@ -28,7 +28,7 @@ export default memo(function FailedModal({isVisible, onClose, retry}: FailedModa
 							Retry
 						</Heading>
 					</Button>
-					<Button as={Link} to='/' onClick={retry} color='bg-secondary'>
+					<Button as={Link} to='/' color='bg-secondary'>
 						<Heading size={2}>
 							Home
 						</Heading>

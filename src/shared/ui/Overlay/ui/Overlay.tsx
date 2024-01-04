@@ -12,7 +12,6 @@ interface OverlayProps {
 }
 
 export default function Overlay({children, className, isVisible = false, onClose, isClosing = false}: OverlayProps) {
-
 	return (
 		<VStack 
 			justify='center'

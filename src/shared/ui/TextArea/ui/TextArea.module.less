@@ -1,0 +1,30 @@
+
+.textarea {
+    padding: 8px;
+    border-radius: 6px;
+    resize: vertical;
+    max-height: 240px;
+    min-height: 40px;
+    height: 100px;
+    overflow-x: clip;
+    text-wrap: wrap;
+    &::placeholder {
+        opacity: 0.7;
+    }
+}
+
+.default, .mui {
+    border: 2px solid var(--item-border);
+    box-shadow: 0px 0px 0px var(--item-border-lighter);
+    transition: 0.2s border ease-in-out;
+
+    &:hover, &:focus {
+        border: 2px solid var(--item-border-lighter);
+        box-shadow: 0px 0px 2px var(--item-border-lighter);
+    }
+}
+
+.mui {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}

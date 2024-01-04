@@ -4,6 +4,7 @@ export interface BuildParams {
     isDev: boolean
     mode: Mode
     port: number
+    api: string,
     paths: {
         output: string
         entry: string

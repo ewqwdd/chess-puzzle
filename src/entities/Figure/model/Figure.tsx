@@ -12,7 +12,6 @@ export enum FigureTypes {
 export class Figure {
 
 	type?: FigureTypes
-	boardSize: number = 8
 	isAlly: boolean
 
 	constructor(isAlly: boolean) {

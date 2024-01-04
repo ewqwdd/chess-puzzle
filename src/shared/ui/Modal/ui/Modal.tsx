@@ -1,4 +1,4 @@
-import { ReactNode, memo, useEffect, useState } from 'react'
+import { MutableRefObject, ReactNode, memo, useEffect, useRef, useState } from 'react'
 import { ClassNames } from 'shared/lib/ClassaNames/ClassNames'
 import { Overlay } from 'shared/ui/Overlay'
 import { Portal } from 'shared/ui/Portal'
@@ -16,17 +16,23 @@ interface ModalProps {
 
 export default memo(function Modal({children, classname, isVisible = false, onClose, parent, portal, scaleAnim}: ModalProps) {
 	const [isOpen, setIsOpen] = useState<boolean>(false)
+	const closeTimeout = useRef() as MutableRefObject<NodeJS.Timeout>
 	
 	useEffect(() => {
 		if(isVisible) {
+			clearTimeout(closeTimeout.current)
 			setIsOpen(true)
 		}
 		else {
-			setTimeout(() => {
+			closeTimeout.current = setTimeout(() => {
 				setIsOpen(false)
 			}, 300)
 		}
 	}, [isVisible])
+
+	if(!isVisible) {
+		return null
+	}
 
 	const content = (
 		<Overlay isVisible={isOpen} isClosing={!isVisible} onClose={onClose}>
@@ -36,7 +42,8 @@ export default memo(function Modal({children, classname, isVisible = false, onCl
 					{[styles.close]: !isVisible && !!scaleAnim, [styles.appear]: !!scaleAnim}, 
 					[styles.modal]
 				)
-			}>
+			}
+			onClick={(e) => e.stopPropagation()}>
 				    {children}
 			</div>
 		</Overlay>

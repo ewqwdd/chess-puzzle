@@ -4,6 +4,9 @@ import 'app/styles/globals.less'
 import { createRoot } from 'react-dom/client'
 import { ThemeProvider } from 'shared/context/theme'
 import {BrowserRouter} from 'react-router-dom'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import { NotificationsProvider } from 'entities/Notification'
 
 
 const root = createRoot(document.getElementById('root')!)
@@ -13,10 +16,14 @@ if(!root) {
 }
 
 root.render(
-	<ThemeProvider>
-		<StoreProvider>
-			<BrowserRouter >
-				<App />
-			</BrowserRouter>
-		</StoreProvider>
-	</ThemeProvider>)
+	<DndProvider backend={HTML5Backend}>
+		<ThemeProvider>
+			<NotificationsProvider>
+				<StoreProvider>
+					<BrowserRouter >
+						<App />
+					</BrowserRouter>
+				</StoreProvider>
+			</NotificationsProvider>
+		</ThemeProvider>
+	</DndProvider>)
