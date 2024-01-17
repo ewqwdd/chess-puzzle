@@ -14,7 +14,7 @@ type color = 'primary' | 'secondary' | 'warning' | 'error'
 
 const colorMapper: Record<color, string> = {
 	error: ClassNames(ColorMapper('error', 'bg'), {}, [ColorMapper('primary', 'text')]),
-	primary: ClassNames(ColorMapper('item-medium', 'bg'), {}, [ColorMapper('secondary', 'text')]),
+	primary: ClassNames(ColorMapper('item-dark', 'bg'), {}, [ColorMapper('secondary', 'text')]),
 	secondary: ClassNames(ColorMapper('item-dark', 'bg'), {}, [ColorMapper('primary', 'text')]),
 	warning: ClassNames(ColorMapper('warning', 'bg'), {}, [ColorMapper('primary', 'text')]),
 }

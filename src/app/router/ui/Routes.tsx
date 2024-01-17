@@ -3,8 +3,11 @@ import { AppRoutes, RoutesEnum } from '../config/routes'
 import { Suspense } from 'react'
 import { Spinner } from 'shared/ui/Spinner'
 import AuthRequired from './AuthRequired'
+import { useTitle } from './SetTitle'
 
 export default function RoutesConfig() {
+
+	useTitle()
 	return (
 		<Suspense fallback={<Spinner />}>
 			<Routes>

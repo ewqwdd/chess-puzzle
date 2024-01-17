@@ -1,15 +1,13 @@
-import { User } from 'entities/User'
+import { User, userActions } from 'entities/User'
 import { HStack, VStack } from 'shared/ui/Flex'
 import styles from './Profile.module.less'
-import { Skeleton } from 'shared/ui/Skeleton'
 import { ClassNames } from 'shared/lib/ClassaNames/ClassNames'
-import { ColorMapper } from 'shared/lib/ColorMapper/ColorMapper'
 import Heading from 'shared/ui/Heading/Heading'
 import { Paragraph } from 'shared/ui/Paragraph'
 import { Logo } from 'shared/ui/logo'
 import { TimerToString } from 'entities/Timer'
 import { Spinner } from 'shared/ui/Spinner'
-import { memo, useCallback, useEffect } from 'react'
+import { memo, useCallback, useEffect, useState } from 'react'
 import { useNotify } from 'entities/Notification'
 import { useForm } from 'react-hook-form'
 import { TextArea } from 'shared/ui/TextArea'
@@ -17,7 +15,10 @@ import Button from 'shared/ui/Button/ui/Button'
 import { inputOptions } from './inputOptions'
 import InputWithError from './InputWithError/InputWithError'
 import { FormErrorMap } from 'shared/lib/FormErrorMap/FormErrorMap'
-import { useWindowResize } from 'shared/hooks/useWindowResize'
+import { ProfileImage } from 'shared/ui/ProfileImage'
+import ImageUpload from 'shared/ui/ImageUpload/ui/ImageUpload'
+import { Props } from 'pages/ProfilePage/model/service/putProfile'
+import { useAppDispatch } from 'shared/hooks/useAppDispatch'
 
 interface ProfileProps {
 	className?: string
@@ -28,7 +29,7 @@ interface ProfileProps {
 	statsError?: string
 	edit?: boolean
 	toggleEdit?: () => void
-	onSubmit?: (e: DeepPartial<User>) => void
+	onSubmit?: (e: DeepPartial<Props>) => Promise<void>
 }
 export default memo(function Profile({
 	user,
@@ -42,7 +43,7 @@ export default memo(function Profile({
 	onSubmit,
 }: ProfileProps) {
 	const { add } = useNotify()
-	const {width} = useWindowResize()
+	const dispatch = useAppDispatch()
 	const { register, handleSubmit, formState, reset } = useForm<
 		DeepPartial<User>
 	>({
@@ -54,14 +55,28 @@ export default memo(function Profile({
 			username: user.username,
 		},
 	})
+	const [image, setImage] = useState<File | null>(null)
+	
+	const uploadFile = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+		setImage(e.target.files?.[0] || null)
+	}, [])
+
+	const clearFile = useCallback(() => {
+		setImage(null)
+	}, [])
 
 	const cancel = useCallback(() => {
 		reset()
 		toggleEdit?.()
+		setImage(null)
 	}, [toggleEdit, reset])
 
-	const submitFunc = handleSubmit((e) => {
-		onSubmit?.(e)
+	const submitFunc = handleSubmit(async (e) => {
+		await onSubmit?.({...e, avatar: image ?? undefined})
+		if (image) {
+			dispatch(userActions.setAvatar(URL.createObjectURL(image)))
+		}
+		setImage(null)
 	})
 
 	useEffect(() => {
@@ -74,7 +89,7 @@ export default memo(function Profile({
 					Avg:
 				</Paragraph>
 				<Logo size={2} className={styles.logo}>
-					{Number.isInteger(averageTime) ? (
+					{(typeof averageTime === 'number') ? (
 						<TimerToString timer={Number(averageTime)} />
 					) : (
 						'00:00'
@@ -83,26 +98,20 @@ export default memo(function Profile({
 			</HStack>
 		</>
 	)
-	console.log(formState.errors)
 
 	return (
 		<HStack
-			className={ClassNames(className)}
+			className={ClassNames(className, {}, [styles.avatarUrl])}
 			onSubmit={submitFunc}
 			as={edit ? 'form' : undefined}
 		>
-			{user.avatar ? (
-				<img src={user.avatar} className={styles.avatar} />
+			{edit ? (
+				<ImageUpload className={styles.avatar} onChange={uploadFile} clear={clearFile} preview={image ?? undefined}/>
 			) : (
-				<Skeleton
-					color={'secondary'}
-					className={ClassNames(styles.avatar, {}, [
-						ColorMapper('dark', 'text'),
-					])}
-				/>
+				<ProfileImage className={styles.avatar} />
 			)}
 			<VStack align='align-stretch' className={styles.details} gap={14}>
-				<HStack justify='between'>
+				<HStack justify='between' className={styles.heading}>
 					{edit ? (
 						<InputWithError
 							{...register('username', inputOptions['username'])}
@@ -121,7 +130,7 @@ export default memo(function Profile({
 						{statsLoading ? <Spinner /> : statsContent}
 					</VStack>
 				</HStack>
-				<HStack justify='between' gap={8}>
+				<HStack justify='between' gap={8} className={styles.data}>
 					<VStack gap={14}>
 						<HStack gap={8}>
 							{edit ? (

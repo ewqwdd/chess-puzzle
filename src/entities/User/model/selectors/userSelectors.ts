@@ -5,4 +5,5 @@ export const getIsLoading = (state: StateSchema) => state.user.isLoading
 export const getError = (state: StateSchema) => state.user.error
 export const getIsAuth = (state: StateSchema) => state.user.isAuth
 export const getIsMounted = (state: StateSchema) => state.user.isMounted
+export const getAvatarLoading = (state: StateSchema) => state.user.avatarLoading
 

@@ -16,7 +16,8 @@ export const buildWebpackConfig = (params: BuildParams): webpack.Configuration =
 		output: {
 			filename: 'main.[contenthash].js',
 			path: paths.output,
-			clean: true
+			clean: true,
+			publicPath: '/'
 		},
 		mode,
 		module: {

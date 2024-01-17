@@ -3,6 +3,7 @@
     border-radius: 10px;
     position: relative;
     padding: 20px;
+    height: 100%;
     @media (min-width: 1400) {
         padding: 46px;
     }
@@ -15,4 +16,26 @@
     left: 50%;
     top: 50%;
     translate: -50% -50%;
+}
+
+.solved {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.solvedWrapper {
+    margin-top: auto;
+    margin-bottom: 64px;
+}
+
+@media (max-width: 768px) {
+    .solved {
+        grid-template-columns: repeat(1, 1fr);
+        max-width: 80%;
+        margin: 0 auto;
+    }
+    .layout {
+        padding: 10px;
+    }
 }

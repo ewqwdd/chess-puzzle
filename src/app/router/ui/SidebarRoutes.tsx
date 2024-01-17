@@ -9,9 +9,10 @@ export default function SidebarRoutesConfig() {
 		<Suspense fallback={<Spinner />}>
 			<Routes>
 				{Object.keys(sideBarRoutes).map( elem => <Route key={elem} path={elem} element={
-					<>
+					<Suspense fallback={<Spinner />}>
+						{/* @ts-expect-error sdadasd */}
 						{sideBarRoutes[elem as RoutesEnum]?.component}
-					</>
+					</Suspense>
 				} 
 				
 				/>)}

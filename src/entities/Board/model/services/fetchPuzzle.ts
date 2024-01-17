@@ -4,14 +4,13 @@ import { StateSchema } from 'app/store'
 import $createApi from 'shared/api/api'
 import { AxiosError } from 'axios'
 
-export const fetchPuzzle = createAsyncThunk<{playerWhite: boolean} & Puzzle, void, {state: StateSchema, rejectValue: string}>(
+export const fetchPuzzle = createAsyncThunk<{playerWhite: boolean} & Puzzle, string | undefined, {state: StateSchema, rejectValue: string}>(
 	'boardSlice/fetchPuzzle',
 	// @ts-expect-error sdsadasdas
-	async (_, ThunkApi) => {
+	async (id, ThunkApi) => {
 		try {
-			const {data} = await $createApi(ThunkApi.dispatch).get<Puzzle>('puzzles')
+			const {data} = await $createApi(ThunkApi.dispatch).get<Puzzle>(`puzzles/${id ?? ''}`)
 			if (!data) {
-				console.log(JSON.stringify(data))
 				return ThunkApi.rejectWithValue('You have solved all puzzles!')
 			}
 			return {...data, playerWhite: true}

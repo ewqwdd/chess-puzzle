@@ -52,13 +52,12 @@ export default memo(function Figure({color, type, className, onClick, figureDrag
 	const [image, setImage] = useState<string>()
 
 	  useEffect(() => {
-		
 		import(`shared/images/figures/${type.charAt(0).toUpperCase() + type.substring(1)}_${color}.png`).then(
 			(data) => {
 				setImage(data.default)
 			}
 		)
-	  }, [])
+	  }, [type])
 
 	useEffect(() => {
 		if (isDragging) {

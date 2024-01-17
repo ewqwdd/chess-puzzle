@@ -1,4 +1,5 @@
-import { getIsAuth, getIsLoading, getIsMounted, getUser } from './model/selectors/userSelectors'
+import { getAvatarLoading, getIsAuth, getIsLoading, getIsMounted, getUser } from './model/selectors/userSelectors'
+import { fetchPicture } from './model/services/fetchPicture'
 import { fetchUser } from './model/services/fetchUser'
 import { login } from './model/services/login'
 import { userActions, userReducer } from './model/slice/userSlice'
@@ -15,5 +16,7 @@ export {
 	getIsLoading,
 	getIsMounted,
 	getUser,
-	type User
+	type User,
+	fetchPicture,
+	getAvatarLoading
 }

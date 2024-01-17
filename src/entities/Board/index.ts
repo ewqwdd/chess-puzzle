@@ -1,3 +1,4 @@
+import { setBoard } from './model/helpers/setBoard'
 import { getBoard, getCurrent, getEnabled, getIsCompleted, getIsFailed, getIsLoading, getPuzzle } from './model/selectors/selectors'
 import { boardReducer } from './model/slice/boardSlice'
 import { BoardCells, BoardSchema, CellCords, Puzzle, playerColor } from './model/types/Board'
@@ -16,6 +17,7 @@ export {
 	FailedModal,
 	getIsCompleted,
 	getPuzzle,
-	type Puzzle
+	type Puzzle,
+	setBoard
 }
 export type { BoardSchema, BoardCells, CellCords }

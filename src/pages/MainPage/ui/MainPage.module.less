@@ -1,0 +1,64 @@
+.figure {
+    height: 270px;
+    position: relative;
+    z-index: 3;
+    padding-bottom: 40px;
+    opacity: 0.8;
+    scale: 0.94;
+    transition: 0.6s ease-in-out;
+    &:nth-child(1) {
+        z-index: 2;
+        translate: 60%;
+    }
+    &:nth-child(2) {
+        padding-bottom: 0px;
+        opacity: 1;
+        scale: 1;
+    }
+    &:nth-child(3) {
+        z-index: 2;
+        translate: -60%;
+    }
+    
+}
+
+.figuresWrapper {
+    &:hover {
+        .figure {
+        padding-bottom: 20px;
+        opacity: 1;
+        scale: 0.96;
+        opacity: 0.92;
+        &:nth-child(1) {
+            z-index: 2;
+            translate: 44%;
+        }
+        &:nth-child(3) {
+            z-index: 2;
+            translate: -44%;
+        }
+    }
+    }
+}
+
+.play {
+    font: var(--font-m);
+    align-self: center;
+}
+
+@media (max-width: 768px) {
+    .figuresWrapper {
+        width: 100%;
+        flex-basis: 33%;
+    }
+    .figure {
+        height: unset;
+        aspect-ratio: 1/1;
+        position: relative;
+        padding-bottom: 30px;   
+    }
+}
+
+@media (max-width: 1024px) {
+
+}

@@ -7,7 +7,7 @@ export default function PlaySidebar() {
 			<Heading align='left' size={3} color='secondary'>
                 Your time:
 			</Heading>
-			{/* <Timer /> */}
+			<Timer />
 		</>
 	)
 }

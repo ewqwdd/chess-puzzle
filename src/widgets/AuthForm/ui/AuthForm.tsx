@@ -18,6 +18,7 @@ import { FormErrorMap } from 'shared/lib/FormErrorMap/FormErrorMap'
 export type Inputs = {
 	email: string
 	password: string
+	repPassword?: string
 }
 
 interface AuthFormProps {
@@ -26,6 +27,7 @@ interface AuthFormProps {
 	buttonText?: string
 	isLoading?: boolean
 	error?: string
+	isRegister?: boolean
 }
 
 export default memo(function AuthForm({
@@ -34,6 +36,7 @@ export default memo(function AuthForm({
 	onSubmit,
 	isLoading,
 	error,
+	isRegister
 }: AuthFormProps) {
 	const {
 		register,
@@ -43,11 +46,18 @@ export default memo(function AuthForm({
 		defaultValues: {
 			email: '',
 			password: '',
+			repPassword: ''
 		},
 	})
-	const onSubmit_: SubmitHandler<Inputs> = (data) => onSubmit?.(data)
+	const onSubmit_: SubmitHandler<Inputs> = (data) => {
+		if (isRegister && data.repPassword!==data.password) {
+			return setPassordError('Passwords doesn\'t match')
+		}
+		onSubmit?.(data)
+	}
 
 	const [hidden, setHidden] = useState<boolean>(true)
+	const [passordError, setPassordError] = useState<string>()
 
 	const toggleHidden = useCallback(() => {
 		setHidden((prev) => !prev)
@@ -125,6 +135,23 @@ export default memo(function AuthForm({
 						{FormErrorMap(passwordOptions)[errors.password.type]}
 					</span>
 				)}
+				{isRegister &&
+				<Input
+					{...register('repPassword', {onChange: () => setPassordError(undefined)})}
+					start={passwordStart}
+					end={passwordEnd}
+					placeholder='Repeat password'
+					aria-label='Password'
+				/>}
+				{passordError ? (
+					<span
+						className={ClassNames(styles.error, {}, [
+							ColorMapper('secondary', 'text'),
+						])}
+					>
+						{passordError}
+					</span>
+				): null}
 			</VStack>
 			{isLoading ? (
 				<Spinner className={styles.spinner} />

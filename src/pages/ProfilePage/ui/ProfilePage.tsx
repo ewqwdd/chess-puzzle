@@ -2,7 +2,7 @@ import { ClassNames } from 'shared/lib/ClassaNames/ClassNames'
 import styles from './ProfilePage.module.less'
 import { ColorMapper } from 'shared/lib/ColorMapper/ColorMapper'
 import { useSelector } from 'react-redux'
-import { User, getIsAuth, getIsMounted, getUser } from 'entities/User'
+import { getIsAuth, getIsMounted, getUser } from 'entities/User'
 import { Profile } from 'widgets/Profile'
 import { useAppDispatch } from 'shared/hooks/useAppDispatch'
 import { useNavigate } from 'react-router'
@@ -17,13 +17,24 @@ import {
 import { useCallback, useEffect } from 'react'
 import { Spinner } from 'shared/ui/Spinner'
 import { useSearchParams } from 'react-router-dom'
-import { putProfile } from '../model/service/putProfile'
-import { getErrors, getIsFullfilled, getServerError, getIsLoading as getSavedIsLoading } from '../model/selectors/selectors'
+import { Props, putProfile } from '../model/service/putProfile'
+import {
+	getErrors,
+	getIsFullfilled,
+	getServerError,
+	getIsLoading as getSavedIsLoading,
+} from '../model/selectors/selectors'
 import { useNotify } from 'entities/Notification'
 import { editProfileRedcuer } from '../model/slice/profileEditSlice'
+import SolvedList from './solvedList/SolvedList'
+import { VStack } from 'shared/ui/Flex'
+import Heading from 'shared/ui/Heading/Heading'
+import { Pagination } from 'shared/ui/Pagination'
+import { getPagesNumber } from 'entities/Stats/model/selectors/selectors'
+import { fetchSolved } from 'entities/Stats/model/service/fetchSolved'
 
 export default function ProfilePage() {
-	const {add} = useNotify()
+	const { add } = useNotify()
 	const user = useSelector(getUser)
 	const isAuth = useSelector(getIsAuth)
 	const isMounted = useSelector(getIsMounted)
@@ -37,22 +48,38 @@ export default function ProfilePage() {
 	const editValidationErrors = useSelector(getErrors)
 	const editIsFullfilled = useSelector(getIsFullfilled)
 	const editIsLoading = useSelector(getSavedIsLoading)
+	const pages = useSelector(getPagesNumber)
+	const page = searchParams.get('page')
+
 
 	useEffect(() => {
 		if (user) {
 			dispatch(fetchStats(user.id))
+			document.title = user.username
 		}
 	}, [user])
 
 	useEffect(() => {
-		if(editServerError) add(editServerError)
+		if (editServerError) add(editServerError)
 	}, [editServerError])
 
 	useEffect(() => {
-		if(editValidationErrors) {
-			Object.values(editValidationErrors).forEach(elem => add(elem))
+		if (editValidationErrors) {
+			Object.values(editValidationErrors).forEach((elem) => add(elem))
 		}
 	}, [editValidationErrors])
+
+	useEffect(() => {
+		if (!user) return
+		dispatch(fetchSolved({id: user.id, page: Number(page) || 1}))
+	}, [searchParams])
+
+	const setPage = useCallback((num: number) => {
+		setSearchParams(prev => {
+			prev.set('page', String(num))
+			return prev
+		})
+	}, [])
 
 	if (isMounted && !isAuth) {
 		navigate(-1)
@@ -60,20 +87,20 @@ export default function ProfilePage() {
 	}
 
 	const toggleEdit = useCallback(() => {
-		setSearchParams(prev => {
+		setSearchParams((prev) => {
 			if (prev.get('edit')) prev.delete('edit')
 			else prev.set('edit', 'true')
 			return prev
 		})
 	}, [setSearchParams])
 
-	const submit = useCallback((user: DeepPartial<User>) => {
-		dispatch(putProfile(user))
+	const submit = useCallback(async (user: DeepPartial<Props>) => {
+		await dispatch(putProfile(user))
 	}, [])
 
 	useEffect(() => {
 		if (editIsFullfilled) {
-			setSearchParams(prev => {
+			setSearchParams((prev) => {
 				prev.delete('edit')
 				return prev
 			})
@@ -84,29 +111,41 @@ export default function ProfilePage() {
 		<DynamicModuleLoader
 			reducers={{
 				stats: statsReducer,
-				editProfile: editProfileRedcuer
+				editProfile: editProfileRedcuer,
 			}}
 		>
-			<div
+			<VStack
 				className={ClassNames(styles.layout, {}, [
 					ColorMapper('item-dark', 'bg'),
 				])}
 			>
 				{user ? (
-					<Profile
-						user={user}
-						{...stats}
-						statsError={error}
-						statsLoading={statsLoading}
-						edit={!!searchParams.get('edit')}
-						toggleEdit={toggleEdit}
-						onSubmit={submit}
-					/>
+					<>
+						<Profile
+							user={user}
+							{...stats}
+							statsError={error}
+							statsLoading={statsLoading}
+							edit={!!searchParams.get('edit')}
+							toggleEdit={toggleEdit}
+							onSubmit={submit}
+						/>
+						<VStack className={styles.solvedWrapper} gap={16}>
+							<Heading size={2}>
+								Solved Puzzles:
+							</Heading>
+							<div className={styles.solved}>
+								<SolvedList />
+							</div>
+							<Pagination current={Number(page) || 1} pages={pages} setPage={setPage} />
+
+						</VStack>
+					</>
 				) : (
 					<Spinner />
 				)}
 				{editIsLoading && <Spinner className={styles.spinner} />}
-			</div>
+			</VStack>
 		</DynamicModuleLoader>
 	)
 }

@@ -148,6 +148,7 @@ const boardSlice = createSlice({
 			state.blocked = undefined
 			state.puzzle = undefined
 			state.error = undefined
+			state.failed = undefined
 		})
 
 		build.addCase(fetchPuzzle.fulfilled, (state, action) => {

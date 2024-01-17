@@ -6,6 +6,7 @@ export interface User {
     lastName?: string
     description?: string
     avatar?: string
+    avatarUrl?: string
 }
 
 export interface UserSchema{
@@ -14,6 +15,7 @@ export interface UserSchema{
     error?: string
     isAuth?: boolean
     isMounted?: boolean
+    avatarLoading?: boolean
 }
 
 export interface ReturnToken {

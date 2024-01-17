@@ -12,14 +12,18 @@ export const getAllowedPawn = ([row, col]: CellCords, board: BoardCells, boardSi
 			allowed.push([nextRow-1, col])
 		}
 	}
-	const nextLeft = board[nextRow][col-1].figure
-	const nextRight = board[nextRow][col+1].figure
-
-	if(col>0 && nextLeft && nextLeft.isAlly !== isAlly) {
-		allowed.push([nextRow, col-1])
+	if (col > 0) {
+		const nextLeft = board[nextRow][col-1].figure
+		if(col>0 && nextLeft && nextLeft.isAlly !== isAlly) {
+			allowed.push([nextRow, col-1])
+		}
 	}
-	if(col<boardSize-1 && nextRight && nextRight.isAlly !== isAlly) {
-		allowed.push([nextRow, col+1])
+	if (col < 7) {
+		const nextRight = board[nextRow][col+1].figure
+		if(col<boardSize-1 && nextRight && nextRight.isAlly !== isAlly) {
+			allowed.push([nextRow, col+1])
+		}
 	}
+	
 	return allowed
 }

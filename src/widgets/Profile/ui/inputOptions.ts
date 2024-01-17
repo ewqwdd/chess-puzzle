@@ -20,5 +20,6 @@ export const inputOptions: Record<keyof Omit<User, 'id'>, RegisterOptions> = {
 		maxLength: 18,
 		required: true,
 	},
-	avatar: {}
+	avatar: {},
+	avatarUrl: {}
 }

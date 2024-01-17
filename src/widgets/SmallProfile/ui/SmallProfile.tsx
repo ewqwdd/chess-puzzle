@@ -9,6 +9,7 @@ import Button from 'shared/ui/Button/ui/Button'
 import { Paragraph } from 'shared/ui/Paragraph'
 import Heading from 'shared/ui/Heading/Heading'
 import { Link } from 'react-router-dom'
+import { ProfileImage } from 'shared/ui/ProfileImage'
 
 interface SmallProfileProps {
 	className?: string
@@ -27,7 +28,7 @@ export default function SmallProfile({ className, logout }: SmallProfileProps) {
 		>
 			<HStack gap={20}>
 				{user?.avatar ? (
-					<img src={user?.avatar} className={styles.avatar} />
+					<ProfileImage className={styles.avatar} />
 				) : (
 					<Skeleton color={'secondary'} className={ClassNames(styles.skeleton, {}, [ColorMapper('dark', 'text')])} />
 				)}

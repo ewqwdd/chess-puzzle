@@ -36,6 +36,7 @@ export default function Button<T extends React.ElementType = 'button'>({
 	inverted, 
 	color = 'item', 
 	as, 
+	square,
 	...props
 }: ButtonProps<T>
 	& Omit<React.ComponentPropsWithoutRef<T>, keyof ButtonProps<T>>) {
@@ -58,7 +59,9 @@ export default function Button<T extends React.ElementType = 'button'>({
 				className={
 					ClassNames(
 						ColorMapper(color, 'bg', inverted), 
-						{}, 
+						{
+							[styles.square]: !!square
+						}, 
 						[
 							styles.main
 						]

@@ -3,6 +3,7 @@
     transition: 0.3s ease-in-out;
     width: 100%;
     max-width: 540px;
+    position: relative;
 
     &.close {
         transform: scale(0.6);
@@ -13,6 +14,15 @@
     animation: openAnim 0.3s ease-in-out;
 }
 
+.cross {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    height: 24px;
+    width: 24px;
+    cursor: pointer;
+}
+
 @keyframes openAnim {
     0% {
         transform: scale(0.6);
@@ -20,5 +30,11 @@
 
     100% {
         transform: scale(1);
+    }
+}
+
+@media (max-width: 720px) {
+    .modal {
+        max-width: 90%;
     }
 }

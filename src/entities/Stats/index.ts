@@ -1,4 +1,4 @@
-import { getError, getIsLoading, getStats } from './model/selectors/selectors'
+import { getBoards, getError, getErrorPuzzles, getIsLoading, getIsLoadingPuzzles, getStats } from './model/selectors/selectors'
 import { fetchStats } from './model/service/fetchStats'
 import { statsActions, statsReducer } from './model/slice/statsSlice'
 import { StatsSchema } from './model/types/types'
@@ -10,5 +10,8 @@ export {
 	statsActions,
 	getStats,
 	getIsLoading,
-	getError
+	getError,
+	getBoards,
+	getErrorPuzzles,
+	getIsLoadingPuzzles
 }

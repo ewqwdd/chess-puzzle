@@ -13,6 +13,7 @@ import { authFormActions } from 'widgets/AuthForm/model'
 import { useLocation, useNavigate } from 'react-router'
 import { useNotify } from 'entities/Notification'
 import { getError } from 'entities/User/model/selectors/userSelectors'
+import { register } from 'entities/User/model/services/register'
 
 export default memo(function AuthFormModal() {
 
@@ -47,11 +48,19 @@ export default memo(function AuthFormModal() {
 		onSubmit: loginForm 
 	}), [])
 
+	const registerForm = useCallback(async ({email, password}: Inputs) => {
+		dispatch(register({username: email, password}))
+	}, [])
+
+	const registerValues = useMemo((): ComponentProps<typeof AuthFormAsync> => ({
+		onSubmit: registerForm 
+	}), [])
+
 	return (
 		<Modal scaleAnim portal isVisible={isOpen} onClose={close}>
 			<VStack>
 				<Suspense fallback={<Spinner className={styles.spinner}/>}>
-					<AuthFormAsync {...isRegister ? loginValues : loginValues} isLoading={isLoading} error={error} />
+					<AuthFormAsync {...!isRegister ? loginValues : registerValues} buttonText={isRegister ? 'Register' : undefined} isRegister={isRegister} isLoading={isLoading} error={error} />
 				</Suspense>
 			</VStack>
 		</Modal>
