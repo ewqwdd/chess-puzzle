@@ -7,7 +7,7 @@
     "build:dev": "webpack --env mode=development",
     "build:prod": "webpack --env mode=production api=https://chess-backend-production.up.railway.app/",
     "start": "webpack serve --env port=3000",
-    "start:prod": "npm run build:prod && npm run start"
+    "start:prod": "webpack serve --env port=3000 api=https://chess-backend-production.up.railway.app/"
   },
   "author": "",
   "license": "ISC",

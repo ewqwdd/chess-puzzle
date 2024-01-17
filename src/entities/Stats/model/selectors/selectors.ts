@@ -24,7 +24,7 @@ export const getBoards = createSelector(
 			console.log(elem)
 			return {
 				board: setBoard(
-					elem.puzzle.board,
+					typeof elem.puzzle === 'string' ? JSON.parse(elem.puzzle).board : elem.puzzle.board,
 					Array(8)
 						.fill(null)
 						.map(() =>
