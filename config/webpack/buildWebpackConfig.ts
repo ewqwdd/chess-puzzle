@@ -32,6 +32,6 @@ export const buildWebpackConfig = (params: BuildParams): webpack.Configuration =
 			runtimeChunk: 'single'
 		},
 		devtool: isDev ? 'inline-source-map' : undefined,
-		devServer: buildDeServer(port)
+		devServer: isDev?  buildDeServer(port) : undefined
 	}
 }

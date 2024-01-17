@@ -1,4 +1,4 @@
-import { Action, CombinedState, Reducer, ReducersMapObject, configureStore } from '@reduxjs/toolkit'
+import { Action, Reducer, ReducersMapObject, configureStore } from '@reduxjs/toolkit'
 import { StateSchema } from '../types/types'
 import { createReducerManager } from './reducerManager'
 import { timerReducer } from 'entities/Timer'
@@ -8,7 +8,7 @@ import { authFormReducer } from 'widgets/AuthForm/model'
 export const createReduxStore = (initialState?: StateSchema, asyncReducers?: DeepPartial<ReducersMapObject>) => {
 
 	console.log(userReducer)
-	const rootReducers: ReducersMapObject<StateSchema, Action<unknown>> = {
+	const rootReducers: ReducersMapObject<StateSchema, Action<string>> = {
 		...asyncReducers,
 		timer: timerReducer,
 		user: userReducer,
@@ -17,7 +17,7 @@ export const createReduxStore = (initialState?: StateSchema, asyncReducers?: Dee
 	const reducerManager = createReducerManager(rootReducers)
 
 	const store = configureStore({
-		reducer: reducerManager.reduce as Reducer<CombinedState<StateSchema>>,
+		reducer: reducerManager.reduce as Reducer<StateSchema>,
 		preloadedState: initialState,
 		devTools: _IS_DEV_,
 		middleware: (getDefaultMiddleware) => getDefaultMiddleware({

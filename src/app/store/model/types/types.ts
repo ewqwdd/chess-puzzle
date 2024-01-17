@@ -1,4 +1,4 @@
-import { AnyAction, Reducer, ReducersMapObject, CombinedState, EnhancedStore } from '@reduxjs/toolkit'
+import { AnyAction, Reducer, ReducersMapObject, EnhancedStore } from '@reduxjs/toolkit'
 import { BoardSchema } from 'entities/Board'
 import { StatsSchema } from 'entities/Stats'
 import { TimerSchema } from 'entities/Timer'
@@ -19,7 +19,7 @@ export type StateSchemaKey = keyof StateSchema
  
 export interface ReducerManager {
     getReducerMap: () => ReducersMapObject<StateSchema>
-    reduce: (state: StateSchema, action: AnyAction) => CombinedState<StateSchema>,
+    reduce: (state: StateSchema, action: AnyAction) => StateSchema,
     add: (key: StateSchemaKey, reducer: Reducer) => void
     remove: (key: StateSchemaKey) => void
     // true - вмонтирован, false - демонтирован

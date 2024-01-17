@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build:dev": "webpack --env mode=development",
-    "build:prod": "webpack --env mode=production",
-    "start": "webpack serve --env port=3000 api=chess-backend.railway.internal",
+    "build:prod": "webpack --env mode=production api=chess-backend.railway.internal",
+    "start": "webpack serve --env port=3000",
     "start:prod": "npm run build:prod && npm run start"
   },
   "author": "",
@@ -47,7 +47,7 @@
     "@babel/preset-typescript": "^7.23.3",
     "@headlessui/react": "^1.7.17",
     "@react-spring/web": "^9.7.3",
-    "@reduxjs/toolkit": "^1.9.7",
+    "@reduxjs/toolkit": "^2.0.1",
     "@types/react-redux": "^7.1.33",
     "@use-gesture/react": "^10.3.0",
     "axios": "^1.6.2",
