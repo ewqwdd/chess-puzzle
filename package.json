@@ -6,7 +6,8 @@
   "scripts": {
     "build:dev": "webpack --env mode=development",
     "build:prod": "webpack --env mode=production",
-    "start": "webpack serve --env port=3000"
+    "start": "webpack serve --env port=3000",
+    "start:prod": "npm run build:prod && npm run start"
   },
   "author": "",
   "license": "ISC",
