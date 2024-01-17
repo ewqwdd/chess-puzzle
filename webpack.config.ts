@@ -9,9 +9,9 @@ interface BuildEnv {
 }
 
 export default (env: BuildEnv) => {
-
+	
 	const mode = env.mode || 'development'
-	const port = env.port || 8000
+	const port = env.port || Number(process.env.PORT) || 8000
 	const isDev = mode === 'development'
 	const api = env.api || 'http://localhost:5000/'
 
