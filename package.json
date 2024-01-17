@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build:dev": "webpack --env mode=development",
-    "build:prod": "webpack --env mode=production api=chess-backend.railway.internal",
+    "build:prod": "webpack --env mode=production api=https://chess-backend-production.up.railway.app/",
     "start": "webpack serve --env port=3000",
     "start:prod": "npm run build:prod && npm run start"
   },
