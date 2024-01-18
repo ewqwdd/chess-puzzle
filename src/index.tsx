@@ -7,6 +7,8 @@ import {BrowserRouter} from 'react-router-dom'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { NotificationsProvider } from 'entities/Notification'
+import { TouchBackend } from 'react-dnd-touch-backend'
+import { isMobile } from 'react-device-detect'
 
 
 const root = createRoot(document.getElementById('root')!)
@@ -16,7 +18,7 @@ if(!root) {
 }
 
 root.render(
-	<DndProvider backend={HTML5Backend}>
+	<DndProvider backend={isMobile ? TouchBackend  : HTML5Backend}>
 		<ThemeProvider>
 			<NotificationsProvider>
 				<StoreProvider>

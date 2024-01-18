@@ -67,7 +67,7 @@ export default memo(function Figure({color, type, className, onClick, figureDrag
 	return (
 		<>
 			<DragPreviewImage connect={preview} src={image ?? ''} />
-			<button ref={drag} {...props} onClick={onClick} className={ClassNames(className, {}, [styles.figure])}>
+			<button ref={figureDrag ? drag : undefined} {...props} onClick={onClick} className={ClassNames(className, {}, [styles.figure])}>
 				{color === playerColor.BLACK ? figuresMapBlack[type] : figuresMapWhite[type]}
 			</button>
 		</>

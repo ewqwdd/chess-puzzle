@@ -48,7 +48,7 @@ export default memo(function BoardCell({cell, isBlack, figureClick, isEnabled, e
 		>
 			{cell.figure?.type ? 
 				<FigureComp 
-					figureDrag={figureClick}
+					figureDrag={!blocked ? figureClick : undefined}
 					onClick={!blocked ? figureClickModified : undefined}
 					type={cell.figure.type}
 					color={cell.figure.isAlly ? playerColor : altColor} /> : null}

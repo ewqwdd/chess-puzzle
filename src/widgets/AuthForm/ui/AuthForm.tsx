@@ -142,6 +142,8 @@ export default memo(function AuthForm({
 					end={passwordEnd}
 					placeholder='Repeat password'
 					aria-label='Password'
+					className={styles.secondPass}
+					type={hidden ? 'password' : 'text'}
 				/>}
 				{passordError ? (
 					<span
