@@ -25,6 +25,7 @@ export default (env: BuildEnv) => {
 			output: path.resolve(__dirname, 'build'),
 			html: path.resolve(__dirname, 'index.html'),
 			src: path.resolve(__dirname, 'src'),
+			public: path.resolve(__dirname, 'public')
 		}
 	}
     

@@ -51,6 +51,7 @@
     "@types/react-redux": "^7.1.33",
     "@use-gesture/react": "^10.3.0",
     "axios": "^1.6.2",
+    "copy-webpack-plugin": "^12.0.2",
     "js-cookie": "^3.0.5",
     "megajs": "^1.1.7",
     "react": "^18.2.0",

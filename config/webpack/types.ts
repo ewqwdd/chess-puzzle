@@ -10,5 +10,6 @@ export interface BuildParams {
         entry: string
         html: string
         src: string
+        public: string
     }
 }
