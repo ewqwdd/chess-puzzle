@@ -69,15 +69,14 @@ export default memo(function AuthForm({
 
 	const passwordEnd = useMemo(
 		() => (
-			<button
-				type='button'
+			<span
 				className={ClassNames(styles.toggle, {
 					[styles.clicked]: !hidden,
 				})}
 				onClick={toggleHidden}
 			>
 				<EyeIcon />
-			</button>
+			</span>
 		),
 		[hidden],
 	)
